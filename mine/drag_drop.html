@@ -24,23 +24,28 @@
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
 <div class="window" id="window0">zero<br/><br/><a href="#" class="cmdLink hide" rel="window1">toggle connections</a><br/><a href="#" class="cmdLink drag" rel="window1">disable dragging</a><br/><a href="#" class="cmdLink detach" rel="window1">detach all</a></div>
+<div class="window" id = "window1"> one </div>			
+
+			<div class="window" id="window2">two<br/><br/><a href="#" class="cmdLink detach" rel="window2">detach all</a></div>
+			<div class="window" id="window3">three<br/><br/><a href="#" class="cmdLink detach" rel="window3">detach all</a></div>
+			<div class="window" id="window4">four<br/><br/><a href="#" class="cmdLink detach" rel="window4">detach all</a></div>			
+
 -->
 
 </head>
 <body>
-	<div id="element" class="clonable draggable_clonable">
-		<p>Drag me</p>
-	</div>
-	<div id="table" class="droppable"></div>
+<div id = "buttom_column">
+	<div id="trigger" class="clonable draggable_clonable"><p>trigger</p></div>
+	<div id="data" class="clonable draggable_clonable"><p>data</p></div>
+	<div id="filter" class="clonable draggable_clonable"><p>filter</p></div>
+	<div id="action" class="clonable draggable_clonable"><p>action</p></div>
+	<div id="event" class="clonable draggable_clonable"><p>event</p></div>
+</div>
 
-	<div id="main" class="droppable">
-			
-			<div class="window" id="window1">one<br/><br/><a href="#" class="cmdLink hide" rel="window1">toggle connections</a><br/><a href="#" class="cmdLink drag" rel="window1">disable dragging</a><br/><a href="#" class="cmdLink detach" rel="window1">detach all</a></div>
-			<div class="window" id="window2">two<br/><br/><a href="#" class="cmdLink hide" rel="window2">toggle connections</a><br/><a href="#" class="cmdLink drag" rel="window2">disable dragging</a><br/><a href="#" class="cmdLink detach" rel="window2">detach all</a></div>
-			<div class="window" id="window3">three<br/><br/><a href="#" class="cmdLink hide" rel="window3">toggle connections</a><br/><a href="#" class="cmdLink drag" rel="window3">disable dragging</a><br/><a href="#" class="cmdLink detach" rel="window3">detach all</a></div>
-			<div class="window" id="window4">four<br/><br/><a href="#" class="cmdLink hide" rel="window4">toggle connections</a><br/><a href="#" class="cmdLink drag" rel="window4">disable dragging</a><br/><a href="#" class="cmdLink detach" rel="window4">detach all</a></div>			
-			<div id="list"></div>	
-	</div>
+<div id="main" class="droppable">
+<div id="list"></div>	
+</div>
+
 
 </body>
 </html>

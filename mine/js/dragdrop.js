@@ -25,34 +25,15 @@ $(function() {
 			});
 	
 	function cloneItemTo( parent, ui) {
-		var id = $(ui.draggable).attr('id') + "0";
-		$(ui.helper).clone(true).removeClass('clonable ui-draggable ui-draggable-dragging')
-		.attr("id",id)
-		.addClass('draggable').appendTo(parent)
-		.draggable({
-			containment : "parent",
-			cursor : "move",
-			stack : ".draggable",
-		});
-				
-		//alert("hi");
-		//jsPlumb.addEndpoint($(id), exampleEndpoint);
-		//jsPlumb.addEndpoint("window0", exampleEndpoint);
-		console.log("element cloned");
+		var point = $(ui.helper)
+					.clone(true)
+					.removeClass('clonable ui-draggable ui-draggable-dragging')
+					.addClass('draggable')
+					.appendTo(parent)
+					.attr('id',  $(ui.draggable).attr('id'));
+		
+		console.log("element cloned " + $(ui.draggable).attr('id') );		
+		initPoint(point);
 	}
-	
-
-	
-	var exampleEndpoint = {
-		endpoint : "Rectangle",
-		paintStyle : {
-			width : 25,
-			height : 21,
-			fillStyle : "red"
-		},
-		isSource : true,
-		reattach : true,
-		isTarget : true,
-	};
 
 });

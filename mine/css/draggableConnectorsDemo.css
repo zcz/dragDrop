@@ -1,13 +1,8 @@
-#window1 { top:6em;left:15%; }
-#window2 { top:6em; right:25%; }
-#window3 { top:30em; left:15%; }
-#window4 { top:30em; right:25%}
 .window {  
     border:1px dotted gray; 
-    width:9.7em; 
-    height:8em;      
+    width:6em; 
+    height:6em;      
     position:absolute; 
-    color:gray;
     font-family:serif;
     font-style:italic;
     padding-top:0.9em; 

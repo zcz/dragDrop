@@ -17,7 +17,7 @@ jsPlumb.bind("ready", function() {
 		$(".rmode[mode='svg']").attr("disabled", !jsPlumb.isSVGAvailable());
 		$(".rmode[mode='vml']").attr("disabled", !jsPlumb.isVMLAvailable());
 					
-		jsPlumbDemo.init();
+		jsPlumbHelper.init();
 	};
      
 	$(".rmode").bind("click", function() {

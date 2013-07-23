@@ -1,14 +1,11 @@
 .clonable {
 	margin: 10px;
-}
-
-.draggable_clonable  {
-	width: 60px;
-	height: 50px;
-	padding: 5px;
 	float: left;
+	height: 50px;
+	width: 60px;
+	text-align:center;
 	border:1px solid #ccc;
-    background-color: #eaeaea;
+	background-color: #eaeaea;
 }
 
 .droppable {
@@ -18,6 +15,7 @@
 	margin: 10px;
 }
 
-div{
-	border: solid;
+#buttom_column {
+	width : 80px;
+	float: left;
 }
