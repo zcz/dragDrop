@@ -33,6 +33,6 @@ $(function() {
 //					.attr('id', $(ui.draggable).attr('id'));
 		
 		console.log("element cloned " + $(ui.draggable).attr('id') );		
-		initPoint(point, $(ui.draggable).attr('type'));
+		$.initPoint(point, $(ui.draggable).attr('type'));
 	}
 });
