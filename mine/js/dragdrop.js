@@ -29,11 +29,10 @@ $(function() {
 					.clone(true)
 					.removeClass('clonable ui-draggable ui-draggable-dragging')
 					.addClass('draggable')
-					.appendTo(parent)
-					.attr('id',  $(ui.draggable).attr('id'));
+					.appendTo(parent);
+//					.attr('id', $(ui.draggable).attr('id'));
 		
 		console.log("element cloned " + $(ui.draggable).attr('id') );		
-		initPoint(point);
+		initPoint(point, $(ui.draggable).attr('type'));
 	}
-
 });

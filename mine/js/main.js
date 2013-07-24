@@ -65,11 +65,13 @@ var exampleDropOptions = {
 // used to allow the user to decide whether
 // or not to allow a particular connection to be established.
 //
+/*
+ * receive data
+ */
 var exampleColor = "#00f";
-var exampleEndpoint = {
+var dataIn_Endpoint = {
 	isSource : false,
 	isTarget : true,
-	//end point configure
 	anchor : "TopCenter",
 	endpoint : [ "Dot", {
 		radius : 11
@@ -86,8 +88,11 @@ var exampleEndpoint = {
 	dropOptions : exampleDropOptions
 };
 
+/*
+ * for default out or "yes" or "true"
+ */
 var color2 = "#316b31";
-var exampleEndpoint2 = {
+var dataOut_True_Endpoint = {
 	isSource : true,
 	isTarget : false,
 	endpoint : [ "Dot", {
@@ -106,8 +111,11 @@ var exampleEndpoint2 = {
 	dropOptions : exampleDropOptions
 };
 
+/*
+ * for data out error, false or "no"
+ */
 var color3 = "#D00000";
-var exampleEndpoint3 = {
+var dataOut_False_Endpoint = {
 	isSource : true,
 	isTarget : false,
 	endpoint : [ "Dot", {
@@ -128,8 +136,6 @@ var exampleEndpoint3 = {
 
 
 window.jsPlumbHelper = {
-		
-	
 		
 	init : function() {
 
@@ -204,14 +210,14 @@ window.jsPlumbHelper = {
 };
 
 var idCounter = 0;
-function initPoint(point) {
+function initPoint(point, type) {
 /*
 	$(Div).addClass('window');
 	jsPlumb.addEndpoint($(point), exampleEndpoint);
 	jsPlumb.draggable($(point));
 */
 	
-	var thisId = $(point).attr("id")+"_"+idCounter++;
+	var thisId = type+"_"+idCounter++;
 	
 	var left = $(point).position().left - $('#main').position().left;
 	var top = $(point).position().top - $('#main').position().top;
@@ -226,9 +232,9 @@ function initPoint(point) {
 	
 	
 	//build connectors
-	jsPlumb.addEndpoint($(Div), exampleEndpoint);
-	jsPlumb.addEndpoint($(Div), exampleEndpoint2);
-	jsPlumb.addEndpoint($(Div), exampleEndpoint3);
+	if (type!="trigger") jsPlumb.addEndpoint($(Div), dataIn_Endpoint);
+	if (type=="event" || type=="filter") jsPlumb.addEndpoint($(Div), dataOut_False_Endpoint);
+	jsPlumb.addEndpoint($(Div), dataOut_True_Endpoint);
 	
 	// make .window divs draggable
 	jsPlumb.draggable($(Div), {
