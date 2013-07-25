@@ -25,14 +25,15 @@ $(function() {
 			});
 	
 	function cloneItemTo( parent, ui) {
+		console.log($("#emailopen"));
+		console.log(ui.helper);
+		console.log(ui.draggable);
 		var point = $(ui.helper)
-					.clone(true)
+					.clone(true, false)
 					.removeClass('clonable ui-draggable ui-draggable-dragging')
-					.addClass('draggable')
 					.appendTo(parent);
-//					.attr('id', $(ui.draggable).attr('id'));
 		
 		console.log("element cloned " + $(ui.draggable).attr('id') );		
-		$.initPoint(point, $(ui.draggable).attr('type'));
+		$.initPoint(point, ui.draggable);
 	}
 });

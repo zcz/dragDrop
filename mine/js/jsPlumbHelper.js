@@ -179,27 +179,27 @@
 
 	var idCounter = 0;
 	
-	$.initPoint = function(point, type) {
-		
+	$.initPoint = function(point, parent) {
 		if (_initiated==false) {
 			initJsPlumb();
 			_initiated = true;
-		}
+		}	
 		
-		var thisId = type+"_"+idCounter++;
+		var thisId = $(parent).attr("id")+"_"+idCounter++;
+		var thisType = $(parent).attr("id");
+		var type = $(parent).attr("type");
 		
 		var left = $(point).position().left - $('#main').position().left;
 		var top = $(point).position().top - $('#main').position().top;
 		
 		var Div = $('<div>', {id : thisId}, {class : 'window ui-draggable'})
+					.attr("type", thisType)
 					.offset({top:top, left:left})
-					.appendTo($(point).parent());
-		$(Div).html(
-				thisId+'<br/><br/><a href="#" class="cmdLink edit" rel="'
-				+thisId+'">edit</a><br/><a href="#" class="cmdLink remove" rel="'
-				+thisId+'">remove</a>');
-		
-		
+					.appendTo($(point).parent())
+					.html(thisId+'<br/><br/><a href="#" class="cmdLink edit" rel="'
+						  +thisId+'">edit</a><br/><a href="#" class="cmdLink remove" rel="'
+						  +thisId+'">remove</a>');
+					
 		//build connectors
 		if (type!="trigger") jsPlumb.addEndpoint($(Div), dataIn_Endpoint);
 		if (type=="event" || type=="filter") jsPlumb.addEndpoint($(Div), dataOut_False_Endpoint);
@@ -212,15 +212,19 @@
 			stack : ".draggable",
 		});
 		$(Div).addClass('window');
-
 		
-		$(".remove").click(function() {
+		$(point).replaceWith(Div);		
+		jsPlumb.repaintEverything();
+
+		$(thisId+",.remove").click(function() {
 			jsPlumb.detachAllConnections($(this).attr("rel"));
 			jsPlumb.removeAllEndpoints($(this).attr("rel"));
 			$(this).parent().remove();
 		});
 		
-		$(point).replaceWith(Div);		
-		jsPlumb.repaintEverything();	
+		$(thisId+",.edit").click( function() {
+			$.handleEdit( $(this).parent() );
+		}).click();
+
 	};	
 }) (jQuery);

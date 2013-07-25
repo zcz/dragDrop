@@ -8,27 +8,88 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 <script type="text/javascript" src="js/jquery.jsPlumb-1.4.0-all.js"></script>
+<script type="text/javascript" src="js/jquery.form.js"></script>
 
 <link rel="stylesheet" href="css/basic.css">
 <link rel="stylesheet" href="css/demo-all.css">
 <link rel="stylesheet" href="css/draggableConnectorsDemo.css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
 
 <script type="text/javascript" src="js/dragdropHelper.js"></script>
 <script type="text/javascript" src="js/jsPlumbHelper.js"></script>
+<script type="text/javascript" src="js/dialogHelper.js"></script>
 
 </head>
 <body>
-<div id = "buttom_column">
-	<div id="trigger" class="clonable draggable_clonable" type="trigger"><p>trigger</p></div>
-	<div id="data" class="clonable draggable_clonable" type="data"><p>data</p></div>
-	<div id="filter" class="clonable draggable_clonable" type="filter"><p>filter</p></div>
-	<div id="action" class="clonable draggable_clonable" type="action"><p>action</p></div>
-	<div id="event" class="clonable draggable_clonable" type="event"><p>event</p></div>
+
+<div class = "buttom_column">
+	<div class="buttom_row">
+		<b>Trigger</b>
+		<div id="trigger" class="clonable draggable_clonable" type="trigger" formId=""><p>trigger</p></div>
+	</div>
+	<div class="buttom_row">
+		<b>Data</b>
+		<div id="data" class="clonable draggable_clonable" type="data" formId=""><p>data</p></div>
+	</div>
+	<div class="buttom_row">
+		<b>Filter</b>
+		<div id="filter" class="clonable draggable_clonable" type="filter" formId=""><p>filter</p></div>
+	</div>
+	<div class="buttom_row">
+		<b>Action</b>
+		<div id="email" class="clonable draggable_clonable" type="action" formId=""><p>email</p></div>
+		<div id="sms" class="clonable draggable_clonable" type="action" formId=""><p>sms</p></div>
+	</div>
+	<div class="buttom_row" >
+		<b>Event</b>
+		<div id="emailopen" class="clonable draggable_clonable" type="event" formId="emailOpenDialog"><p>e-open</p></div>
+		<div id="emailclick" class="clonable draggable_clonable" type="event" formId="emailClickDialog"><p>e-click</p></div>
+		<div id="smsreceive" class="clonable draggable_clonable" type="event" formId="smsReceiveDialog"><p>s-receive</p></div>
+	</div>
 </div>
 
 <div id="main" class="droppable">
 <div id="list"></div>	
 </div>
 
+<div id="dialogContainer">
+
+	<div id="emailOpenDialog" title="Event: Email Open">
+		<form>
+			<label>Occurrence:</label>
+			<select name="occurrence">
+				<option value="1">One</option>
+				<option value="2">Two</option>
+			</select>
+		</form>
+	</div>
+	
+	<div id="emailClickDialog" title="Event: Email Click">
+		<form>
+			<label>Occurrence:</label>
+			<select name="occurrence">
+				<option value="1">One</option>
+				<option value="2">Two</option>
+			</select>
+		</form>
+	</div>
+	
+	<div id="smsReceiveDialog" title="Event: Sms Receive">
+		<form>
+			<label>Occurrence:</label>
+			<select name="occurrence">
+				<option value="1">One</option>
+				<option value="2">Two</option>
+			</select>
+		</form>
+	</div>
+	
+	
+
+</div>
+
 </body>
 </html>
+
+
+
