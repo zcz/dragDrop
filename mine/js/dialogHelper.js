@@ -2,7 +2,7 @@
 
 	$.handleEdit = function(point) {
 		
-		$("#emailOpenDialog").dialog({
+		$("#emailDialog").dialog({
 			dialogClass : "no-close",
 			buttons : [ {
 				text : "OK",

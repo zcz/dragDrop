@@ -188,13 +188,13 @@
 		var thisId = $(parent).attr("id")+"_"+idCounter++;
 		var thisType = $(parent).attr("id");
 		var type = $(parent).attr("type");
-		
-		var left = $(point).position().left - $('#main').position().left;
-		var top = $(point).position().top - $('#main').position().top;
-		
-		var Div = $('<div>', {id : thisId}, {class : 'window ui-draggable'})
+		var formId = $(parent).attr("formId");
+				
+		var Div = $('<div>', {id : thisId})
 					.attr("type", thisType)
-					.offset({top:top, left:left})
+					.attr("formId", formId)
+					.addClass('window')
+					.offset($(point).position())
 					.appendTo($(point).parent())
 					.html(thisId+'<br/><br/><a href="#" class="cmdLink edit" rel="'
 						  +thisId+'">edit</a><br/><a href="#" class="cmdLink remove" rel="'
@@ -211,20 +211,17 @@
 			cursor : "move",
 			stack : ".draggable",
 		});
-		$(Div).addClass('window');
 		
-		$(point).replaceWith(Div);		
-		jsPlumb.repaintEverything();
+//		jsPlumb.repaintEverything();
 
-		$(thisId+",.remove").click(function() {
+		$(Div).find(".remove").click(function() {
 			jsPlumb.detachAllConnections($(this).attr("rel"));
 			jsPlumb.removeAllEndpoints($(this).attr("rel"));
 			$(this).parent().remove();
 		});
 		
-		$(thisId+",.edit").click( function() {
+		$(Div).find(".edit").click( function() {
 			$.handleEdit( $(this).parent() );
 		}).click();
-
 	};	
 }) (jQuery);

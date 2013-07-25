@@ -19,21 +19,13 @@ $(function() {
 				drop : function(event, ui) {
 					console.log(this.id + " got item " + $(ui.draggable).attr('id'));
 					if ($(ui.draggable).hasClass("clonable")) {
-						cloneItemTo(this, ui);
+						cloneItemTo(ui);
 					}
 				}
 			});
 	
-	function cloneItemTo( parent, ui) {
-		console.log($("#emailopen"));
-		console.log(ui.helper);
-		console.log(ui.draggable);
-		var point = $(ui.helper)
-					.clone(true, false)
-					.removeClass('clonable ui-draggable ui-draggable-dragging')
-					.appendTo(parent);
-		
+	function cloneItemTo(ui) {		
 		console.log("element cloned " + $(ui.draggable).attr('id') );		
-		$.initPoint(point, ui.draggable);
+		$.initPoint(ui.helper, ui.draggable);
 	}
 });

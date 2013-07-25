@@ -37,8 +37,8 @@
 	</div>
 	<div class="buttom_row">
 		<b>Action</b>
-		<div id="email" class="clonable draggable_clonable" type="action" formId=""><p>email</p></div>
-		<div id="sms" class="clonable draggable_clonable" type="action" formId=""><p>sms</p></div>
+		<div id="email" class="clonable draggable_clonable" type="action" formId="emailDialog"><p>email</p></div>
+		<div id="sms" class="clonable draggable_clonable" type="action" formId="smsDialog"><p>sms</p></div>
 	</div>
 	<div class="buttom_row" >
 		<b>Event</b>
@@ -53,6 +53,22 @@
 </div>
 
 <div id="dialogContainer">
+
+	<div id="emailDialog" title="Email">
+		<form>
+			<LABEL for="firstname">Content: </LABEL>
+				<INPUT type="text" id="content">
+		</form>
+	</div>
+	
+	<div id="smsDialog" title="SMS">
+		<form>
+			<LABEL for="firstname">Content: </LABEL>
+				<INPUT type="text" id="content">
+		</form>
+	</div>
+	
+
 
 	<div id="emailOpenDialog" title="Event: Email Open">
 		<form>
@@ -74,7 +90,7 @@
 		</form>
 	</div>
 	
-	<div id="smsReceiveDialog" title="Event: Sms Receive">
+	<div id="smsReceiveDialog" title="Event: SMS Receive">
 		<form>
 			<label>Occurrence:</label>
 			<select name="occurrence">
