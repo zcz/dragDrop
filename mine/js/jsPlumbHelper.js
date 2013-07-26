@@ -188,11 +188,11 @@
 		var thisId = $(parent).attr("id")+"_"+idCounter++;
 		var thisType = $(parent).attr("id");
 		var type = $(parent).attr("type");
-		var formId = $(parent).attr("formId");
+		var formType = $(parent).attr("formType");
 				
 		var Div = $('<div>', {id : thisId})
 					.attr("type", thisType)
-					.attr("formId", formId)
+					.attr("formType", formType)
 					.addClass('window')
 					.offset($(point).position())
 					.appendTo($(point).parent())

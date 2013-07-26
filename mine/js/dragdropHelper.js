@@ -5,12 +5,6 @@ $(function() {
 				cursor : "move",
 				helper : 'clone',
 				revert : "invalid",
-				/*
-				drag : function(event, ui) {
-					console.log(this.id + " position:(" + ui.position.top + ","
-							+ ui.position.left + ") offset:(" + ui.offset.top
-							+ "," + ui.offset.left + ")");
-				}*/
 			});
 
 	$(".droppable").droppable(
