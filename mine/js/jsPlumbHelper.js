@@ -1,8 +1,6 @@
 (function($) {
 	
-	var _initiated = false;
-	
-	function initJsPlumb() {
+	$.initJsPlumb = function() {
 		// chrome fix.
 		document.onselectstart = function () { return false; };				
 
@@ -27,7 +25,7 @@
 		});	
 
 		resetRenderMode(jsPlumb.SVG);
-	}
+	};
 	
 	function initJsPlumbConnector() {
 
@@ -180,19 +178,18 @@
 	var idCounter = 0;
 	
 	$.initPoint = function(point, parent) {
-		if (_initiated==false) {
-			initJsPlumb();
-			_initiated = true;
-		}	
 		
 		var thisId = $(parent).attr("id")+"_"+idCounter++;
 		var thisType = $(parent).attr("id");
 		var type = $(parent).attr("type");
 		var formType = $(parent).attr("formType");
+		var uri = $(parent).attr("uri");
 				
 		var Div = $('<div>', {id : thisId})
 					.attr("type", thisType)
 					.attr("formType", formType)
+					.attr("uri", uri)
+					.attr("extid", '-1')
 					.addClass('window')
 					.offset($(point).position())
 					.appendTo($(point).parent())
@@ -207,7 +204,7 @@
 		
 		// make .window divs draggable
 		jsPlumb.draggable($(Div), {
-			containment : "parent",
+			containment : "#main",
 			cursor : "move",
 			stack : ".draggable",
 		});

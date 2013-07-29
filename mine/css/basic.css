@@ -1,5 +1,5 @@
 .clonable {
-	margin-bottom:-1px;
+	margin-bottom:-2px;
 	float: left;
 	height: 50px;
 	width: 70px;
@@ -25,9 +25,19 @@
 }
 
 .buttom_row b {
-	line-height: 200%;
+	line-height: 175%;
 }
 
 .no-close .ui-dialog-titlebar-close {
   display: none;
+}
+
+.highlight {
+  background-color: #ff6;
+  color: #c00;
+  position: relative;
+}
+
+.giveSomeSpace{
+	margin : 20px;
 }
