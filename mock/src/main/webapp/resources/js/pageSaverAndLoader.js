@@ -2,6 +2,38 @@
 	
 	var settings;
 	
+	var nodeList = {
+		trigger: {
+			nodeType : "TRIGGER",
+		},
+		data: {
+			nodeType : "DATA_SOURCE",
+		},
+		filter: {
+			nodeType : "FILTER",
+		},
+		email: {
+			nodeType : "ACTION",
+			action  : "EMAIL"
+		},
+		sms: {
+			nodeType : "ACTION",
+			action  : "SMS"
+		},
+		emailopen: {
+			nodeType : "EVENT",
+			event  : "EMAIL_OPENED"
+		},
+		emailclick: {
+			nodeType : "EVENT",
+			event  : "EMAIL_CLICKED"
+		},
+		smsreceive: {
+			nodeType : "EVENT",
+			event  : "SMS_RECEIVED"
+		},
+	};
+	
 	$.initSaverAndLoader = function(options) {
 		settings = $.extend({
 			baseUrl: './',
@@ -17,12 +49,11 @@
 		});
 	};
 	
-
 	function saveThisFlow() {
 		var JSON = prepareJSON();
-		alert(JSON);
-
-/*
+		
+		$("#showJson").html("json: "+JSON );
+		
 		var options = {
 			type : "POST",
 			url : settings.uri,
@@ -38,33 +69,49 @@
 			}
 		};
 		$.ajax(options);
-*/
 	};
 	
 	function prepareJSON() {
 		var pointJson = [];
-		var edgeJson = [];
+		var edgeJson = $.getAllConnections();
+		var finalJson = [];		
+		
 		$(".window").each(function() {
-			var opt;
-			if ($(this).attr("type")=="trigger") {
-				opt = $("#"+$(this).attr("formId")).find('form').find(".valid").serializeArray();
+			var opt_nameValue = [];
+			var opt = [];
+			if ($(this).attr("category")=="trigger") {
+				opt_nameValue = $("#"+$(this).attr("formId")).find('form').find(".valid").serializeArray();
 			}
-			if ($(this).attr("type")=="event") {
-				opt = $("#"+$(this).attr("formId")).find('form').serializeArray();
+			if ($(this).attr("category")=="event") {
+				opt_nameValue = $("#"+$(this).attr("formId")).find('form').serializeArray();
 			}
-			var point = {
-				extid : $("#"+$(this).attr("formId")).attr('extid'),
+			$.each( opt_nameValue, function( key, value ) {
+				var theKey;
+				var theValue;
+				$.each(value, function( key, value ) {
+					if (key == "name") theKey = value;
+					if (key == "value") theValue = value;
+				});
+				opt[theKey] = theValue;
+			});
+			var defaultValue = {
+				extId : $("#"+$(this).attr("formId")).attr('extid'),
 				id : $(this).attr("id"),
-				nodeType : $(this).attr("type"),
 				description : "nothing",
-				opt:opt,
 			};
+			var point = $.extend( defaultValue, nodeList[$(this).attr("type")], opt||{} );
 			pointJson.push(point);
 		});
 		
+		finalJson = {
+				nodes : pointJson,
+				edges : edgeJson,
+		};
+		return JSON.stringify(finalJson);
+	}
+	
+	function typeMapper() {
 		
-		
-		return JSON.stringify(pointJson);
 	}
 	
 })(jQuery);

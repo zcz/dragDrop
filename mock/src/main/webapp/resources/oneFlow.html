@@ -5,23 +5,22 @@
 <meta charset="utf-8" />
 <title>jQuery UI Droppable - Default functionality</title>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-
+<script type="text/javascript" src="external/jquery.min.js"></script>
+<script type="text/javascript" src="external/jquery-ui.min.js"></script>
 <script type="text/javascript" src="external/jquery.jsPlumb-1.4.0-all.js"></script>
 <script type="text/javascript" src="external/jquery.form.js"></script>
 <script type="text/javascript" src="external/gentleSelect/jquery-gentleSelect.js"></script>
 <script type="text/javascript" src="external/cron/jquery-cron.js"></script>
 <script type="text/javascript" src="external/timepicker/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="external/timepicker/jquery-ui-sliderAccess.js"></script>
-		
+
 <link rel="stylesheet" href="css/basic.css">
 <link rel="stylesheet" href="css/demo-all.css">
 <link rel="stylesheet" href="css/draggableConnectorsDemo.css">
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-<link rel="stylesheet" media="all" type="text/css" href="external/timepicker/jquery-ui-timepicker-addon.css" />
-<link type="text/css" href="external/gentleSelect/jquery-gentleSelect.css" rel="stylesheet" />
-<link type="text/css" href="external/cron/jquery-cron.css" rel="stylesheet" />
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link rel="stylesheet" href="external/timepicker/jquery-ui-timepicker-addon.css" />
+<link rel="stylesheet" href="external/gentleSelect/jquery-gentleSelect.css" />
+<link rel="stylesheet" href="external/cron/jquery-cron.css" />
 
 
 <script type="text/javascript" src="js/dragdropHelper.js"></script>
@@ -32,6 +31,8 @@
 
 </head>
 <body>
+
+<div id="showJson"></div>
 
 <div class = "buttom_column">
 	<div class="buttom_row">
@@ -64,7 +65,7 @@
 </div>
 
 <div id="main" class="droppable">
-<div id="list"></div>	
+<!-- <div id="list"></div>	-->
 </div>
 
 <div id="dialogContainer" style="display: none;" uri="../">
@@ -74,15 +75,15 @@
 		
 		<div>
 			<label>Trigger Select:</label>
-			<input type="radio" name="radio" value="schedule" checked="checked" class="valid">schedule
-           	<input type="radio" name="radio" value="timepicker" class="valid">timer
-            <div id="scheduler" class="giveSomeSpace">
-				<LABEL for="">Schedule: </LABEL>
-				<input type="hidden" name="schedule"  class="valid">
+			<input type="radio" name="schedulerType" value="CRON" checked="checked" class="valid">cron scheduler
+           	<input type="radio" name="schedulerType" value="SIMPLE" class="valid">simple scheduler
+            <div id="cronscheduler" class="giveSomeSpace">
+				<LABEL for=""></LABEL>
+				<input type="hidden" name="cronScheduler"  class="valid">
 			</div>
-            <div id="timer" class="giveSomeSpace">
+            <div id="simplescheduler" class="giveSomeSpace">
             	<LABEL for="">Occur once at: </LABEL>
-				<input type="text" name="timepicker" class="valid">
+				<input type="text" name="simpleScheduler" class="valid">
 			</div>
         </div>
 		</form>

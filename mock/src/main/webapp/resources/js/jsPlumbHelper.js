@@ -137,7 +137,7 @@
 		isSource : true,
 		isTarget : false,
 		endpoint : [ "Dot", {
-			radius : 11
+			radius : 11,
 		} ],
 		anchor : "BottomCenter",
 		paintStyle : {
@@ -149,7 +149,10 @@
 			lineWidth : 3
 		},
 		maxConnections : -1,
-		dropOptions : exampleDropOptions
+		dropOptions : exampleDropOptions,
+		parameters : {
+			connectorDecision : "true",
+		}
 	};
 
 	/*
@@ -160,7 +163,7 @@
 		isSource : true,
 		isTarget : false,
 		endpoint : [ "Dot", {
-			radius : 11
+			radius : 11,
 		} ],
 		anchor : "Right",
 		paintStyle : {
@@ -172,35 +175,42 @@
 			lineWidth : 3
 		},
 		maxConnections : -1,
-		dropOptions : exampleDropOptions
+		dropOptions : exampleDropOptions,
+		parameters : {
+			connectorDecision : "false",
+		}
 	};
 
 	var idCounter = 0;
 	
 	$.initPoint = function(point, parent) {
 		
-		var thisId = $(parent).attr("id")+"_"+idCounter++;
+		var thisCounter = idCounter++;
+		//var thisId = $(parent).attr("id")+"_"+idCounter++;
+		var thisId = "31415"+thisCounter;
 		var thisType = $(parent).attr("id");
+		var category = $(parent).attr("type");
 		var type = $(parent).attr("type");
 		var formType = $(parent).attr("formType");
 		var uri = $(parent).attr("uri");
 				
 		var Div = $('<div>', {id : thisId})
 					.attr("type", thisType)
+					.attr("category", category)
 					.attr("formType", formType)
 					.attr("uri", uri)
 					.attr("extid", '-1')
 					.addClass('window')
 					.offset($(point).position())
 					.appendTo($(point).parent())
-					.html(thisId+'<br/><br/><a href="#" class="cmdLink edit" rel="'
+					.html(thisType+"_"+thisCounter+'<br/><br/><a href="#" class="cmdLink edit" rel="'
 						  +thisId+'">edit</a><br/><a href="#" class="cmdLink remove" rel="'
 						  +thisId+'">remove</a>');
 					
 		//build connectors
 		if (type!="trigger") jsPlumb.addEndpoint($(Div), dataIn_Endpoint);
-		if (type=="event" || type=="filter") jsPlumb.addEndpoint($(Div), dataOut_False_Endpoint);
-		jsPlumb.addEndpoint($(Div), dataOut_True_Endpoint);
+		if (type=="event" || type=="filter") jsPlumb.addEndpoint($(Div), dataOut_False_Endpoint, {connectorDecision : "false"});
+		jsPlumb.addEndpoint($(Div), dataOut_True_Endpoint, {connectorDecision : "true"});
 		
 		// make .window divs draggable
 		jsPlumb.draggable($(Div), {
@@ -221,4 +231,23 @@
 			$.handleEdit( $(this).parent() );
 		}).click();
 	};	
+	
+	$.getAllConnections = function() {
+		var s = [];
+		for ( var j = 0; j < connections.length; j++) {
+			var type = null;
+			var endPoints = connections[j].endpoints;
+			for (var i=0; i<endPoints.length; ++i) {
+				if (endPoints[i].getParameter("connectorDecision")!= null)
+					type = endPoints[i].getParameter("connectorDecision");
+			}
+			s.push({
+				src:connections[j].sourceId,
+				dst:connections[j].targetId,
+				satisfied : type,
+			});
+		}
+		return s;
+	};
 }) (jQuery);
+

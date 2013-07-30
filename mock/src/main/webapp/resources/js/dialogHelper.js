@@ -27,22 +27,22 @@
 	}
 		
 	function initTrigger(parent) {
-		 $(parent).find('#scheduler').cron({
+		 $(parent).find('#cronscheduler').cron({
 			 initial: "0 0 * * *",
 			 onChange: function() {
-				$($(this).parent().find("input[name=schedule]")).val($(this).cron("value"));
+				$($(this).parent().find("input[name=cronScheduler]")).val($(this).cron("value"));
 			 }
 		 });
-		 $(parent).find('input[name=timepicker]').datetimepicker();
-		 $(parent).find("#timer").hide();
-		 $(parent).find("input[name='radio']").change(function() {
+		 $(parent).find('input[name=simpleScheduler]').datetimepicker();
+		 $(parent).find("#simplescheduler").hide();
+		 $(parent).find("input[name='schedulerType']").change(function() {
 			radioValue = $(this).val();
-			if ($(this).is(":checked") && radioValue == "schedule") {
-				$(this).parent().find('#scheduler').show();
-				$(this).parent().find('#timer').hide();
+			if ($(this).is(":checked") && radioValue == "CRON") {
+				$(this).parent().find('#cronscheduler').show();
+				$(this).parent().find('#simplescheduler').hide();
 			} else {
-				$(this).parent().find('#scheduler').hide();
-				$(this).parent().find('#timer').show();
+				$(this).parent().find('#cronscheduler').hide();
+				$(this).parent().find('#simplescheduler').show();
 			} 
 		 });
 	}

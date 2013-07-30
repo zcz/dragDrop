@@ -19,6 +19,7 @@ import com.xgate.mock.model.Action;
 import com.xgate.mock.model.CampaignFlow;
 import com.xgate.mock.model.ContactList;
 import com.xgate.mock.model.Filter;
+import com.xgate.mock.model.Request;
 
 /**
  * Handles requests for the application home page.
@@ -54,6 +55,9 @@ public class HomeController {
 		return "home";
 	}
 	
+	/**
+	 * data source
+	 */
 	@RequestMapping(value = "/contact", method = RequestMethod.POST)
 	public @ResponseBody ContactList addContact(@RequestParam("name") String name, @RequestParam("email") String email, @RequestParam("mobile") String mobile, @RequestParam("extid") int extid) {
 		if ((name+email+mobile).length()==0) return null;
@@ -70,7 +74,10 @@ public class HomeController {
 		logger.info("load all contacts for list: " + id);
 		return this.DSController.getContactList(id);
 	}	
-
+	
+	/**
+	 * Filter: create, get and decide
+	 */
 	@RequestMapping(value = "/filter", method = RequestMethod.POST)
 	public @ResponseBody Filter addFilter(@RequestParam("attribute") String attribute, @RequestParam("regex") String regex, @RequestParam("extid") int extid) {
 		if ((attribute+regex).length()==0) return null;
@@ -86,8 +93,17 @@ public class HomeController {
 	public @ResponseBody Filter loadFilter(@RequestParam("extid") int id) {
 		logger.info("load filter: " + id);
 		return this.FTController.loadFilter(id);
-	}	
+	}
 	
+	@RequestMapping(value = "/filter", method = RequestMethod.PUT)
+	public @ResponseBody Request useFilter(@RequestParam("extid") int id, @RequestParam("contactid") int contactId) {
+		logger.info("using filter["+id+"] for contact["+contactId+"]");
+		return this.FTController.filter(id, contactId);
+	}
+	
+	/**
+	 * action (email, sms), create, get, use(put)
+	 */
 	@RequestMapping(value = "/action/{type}", method = RequestMethod.POST)
 	public @ResponseBody Action addAction(@PathVariable String type, @RequestParam("content") String content, @RequestParam("extid") int extid) {
 		if ((type+content).length()==0) return null;
@@ -103,7 +119,13 @@ public class HomeController {
 	public @ResponseBody Action loadAction(@RequestParam("extid") int id) {
 		logger.info("load Action: " + id);
 		return this.ActionController.loadAction(id);
-	}	
+	}
+	
+	@RequestMapping(value = "/action/{type}", method = RequestMethod.PUT)
+	public @ResponseBody Request useAction(@PathVariable String type, @RequestParam("extid") int id, @RequestParam("contactid") int contactId) {
+		logger.info("using action["+type+"]["+id+"] for contact["+contactId+"]");
+		return this.ActionController.activate(id, contactId, type);
+	}
 	
 	@RequestMapping(value = "/flow", method = RequestMethod.POST)
 	public @ResponseBody CampaignFlow addFlow(@RequestParam("name") String name, @RequestParam("JSON") String JSON, @RequestParam("id") int extid) {
