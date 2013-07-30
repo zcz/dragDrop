@@ -1,0 +1,185 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>jQuery UI Droppable - Default functionality</title>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="external/jquery.jsPlumb-1.4.0-all.js"></script>
+<script type="text/javascript" src="external/jquery.form.js"></script>
+<script type="text/javascript" src="external/gentleSelect/jquery-gentleSelect.js"></script>
+<script type="text/javascript" src="external/cron/jquery-cron.js"></script>
+<script type="text/javascript" src="external/timepicker/jquery-ui-timepicker-addon.js"></script>
+<script type="text/javascript" src="external/timepicker/jquery-ui-sliderAccess.js"></script>
+		
+<link rel="stylesheet" href="css/basic.css">
+<link rel="stylesheet" href="css/demo-all.css">
+<link rel="stylesheet" href="css/draggableConnectorsDemo.css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" media="all" type="text/css" href="external/timepicker/jquery-ui-timepicker-addon.css" />
+<link type="text/css" href="external/gentleSelect/jquery-gentleSelect.css" rel="stylesheet" />
+<link type="text/css" href="external/cron/jquery-cron.css" rel="stylesheet" />
+
+
+<script type="text/javascript" src="js/dragdropHelper.js"></script>
+<script type="text/javascript" src="js/jsPlumbHelper.js"></script>
+<script type="text/javascript" src="js/dialogHelper.js"></script>
+<script type="text/javascript" src="js/pageSaverAndLoader.js"></script>
+<script type="text/javascript" src="js/controller.js"></script>
+
+</head>
+<body>
+
+<div class = "buttom_column">
+	<div class="buttom_row">
+		<b>Trigger</b>
+		<div id="trigger" class="clonable draggable_clonable" type="trigger" formType="triggerDialog" uri="trigger"><p>trigger</p></div>
+	</div>
+	<div class="buttom_row">
+		<b>Data</b>
+		<div id="data" class="clonable draggable_clonable" type="data" formType="dataDialog" uri="contact"><p>data</p></div>
+	</div>
+	<div class="buttom_row">
+		<b>Filter</b>
+		<div id="filter" class="clonable draggable_clonable" type="filter" formType="filterDialog" uri="filter"><p>filter</p></div>
+	</div>
+	<div class="buttom_row">
+		<b>Action</b>
+		<div id="email" class="clonable draggable_clonable" type="action" formType="emailDialog" uri="action/email"><p>email</p></div>
+		<div id="sms" class="clonable draggable_clonable" type="action" formType="smsDialog" uri="action/sms"><p>sms</p></div>
+	</div>
+	<div class="buttom_row" >
+		<b>Event</b>
+		<div id="emailopen" class="clonable draggable_clonable" type="event" formType="emailOpenDialog"><p>e-open</p></div>
+		<div id="emailclick" class="clonable draggable_clonable" type="event" formType="emailClickDialog"><p>e-click</p></div>
+		<div id="smsreceive" class="clonable draggable_clonable" type="event" formType="smsReceiveDialog"><p>s-receive</p></div>
+	</div>
+	<div class="buttom_row">
+		<b>Done? </b>
+		<button type="button" id="saveFlow">Save</button>
+	</div>
+</div>
+
+<div id="main" class="droppable">
+<div id="list"></div>	
+</div>
+
+<div id="dialogContainer" style="display: none;" uri="../">
+
+	<div id="triggerDialog" title="Trigger">
+		<form>
+		
+		<div>
+			<label>Trigger Select:</label>
+			<input type="radio" name="radio" value="schedule" checked="checked" class="valid">schedule
+           	<input type="radio" name="radio" value="timepicker" class="valid">timer
+            <div id="scheduler" class="giveSomeSpace">
+				<LABEL for="">Schedule: </LABEL>
+				<input type="hidden" name="schedule"  class="valid">
+			</div>
+            <div id="timer" class="giveSomeSpace">
+            	<LABEL for="">Occur once at: </LABEL>
+				<input type="text" name="timepicker" class="valid">
+			</div>
+        </div>
+		</form>
+    </div>
+
+
+	<div id="dataDialog" title="Data Source">
+		<form>			
+			<table>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>Mobile</th>
+				</tr>
+				<tr class="forDataDisplay" >
+					<td>this</td>
+					<td>should not</td>
+					<td>display</td>
+				</tr>
+				<tr>
+					<td><INPUT type="text" name="name"></td>
+					<td><INPUT type="text" name="email"></td>
+					<td><INPUT type="text" name="mobile"></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td><button type="button" name="submitButton" id="addContact">Add Contact</button></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+
+	<div id="filterDialog" title="Filter">
+		<form>
+			<LABEL for="attribute">Customer Field: </LABEL> 
+			<select name="attribute">
+				<option value="name">Name</option>
+				<option value="email">Email</option>
+				<option value="mobile">Mobile</option>
+			</select> <br> <LABEL for="regex">Matches: </LABEL> 
+				<INPUT type="text" name="regex">
+		</form>
+	</div>
+
+	<div id="emailDialog" title="Email">
+		<form>
+			<LABEL for="content">Content: </LABEL>
+				<INPUT type="text" name="content">
+		</form>
+	</div>
+	
+	<div id="smsDialog" title="SMS">
+		<form>
+			<LABEL for="content">Content: </LABEL>
+				<INPUT type="text" name="content">
+		</form>
+	</div>
+
+	<div id="emailOpenDialog" title="Event: Email Open">
+		<form>
+			<label>Occurrence:</label>
+			<select name="occurrence">
+				<option value="1">One</option>
+				<option value="2">Two</option>
+				<option value="3">Three</option>
+			</select>
+		</form>
+	</div>
+	
+	<div id="emailClickDialog" title="Event: Email Click">
+		<form>
+			<label>Occurrence:</label>
+			<select name="occurrence">
+				<option value="1">One</option>
+				<option value="2">Two</option>
+				<option value="3">Three</option>
+			</select>
+		</form>
+	</div>
+	
+	<div id="smsReceiveDialog" title="Event: SMS Receive">
+		<form>
+			<label>Occurrence:</label>
+			<select name="occurrence">
+				<option value="1">One</option>
+				<option value="2">Two</option>
+				<option value="3">Three</option>
+			</select>
+		</form>
+	</div>
+	
+</div>
+
+</body>
+</html>
+
+
+
