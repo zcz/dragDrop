@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>jQuery UI Droppable - Default functionality</title>
+<title>Campaign Designer - one flow</title>
 
 <script type="text/javascript" src="external/jquery.min.js"></script>
 <script type="text/javascript" src="external/jquery-ui.min.js"></script>
@@ -13,6 +13,9 @@
 <script type="text/javascript" src="external/cron/jquery-cron.js"></script>
 <script type="text/javascript" src="external/timepicker/jquery-ui-timepicker-addon.js"></script>
 <script type="text/javascript" src="external/timepicker/jquery-ui-sliderAccess.js"></script>
+<script type="text/javascript" src="external/base64/jquery-base64.js"></script>
+<script type="text/javascript" src="external/jquery-dateFormat.js"></script>
+<script type="text/javascript" src="external/jquery-numeric.js"></script>
 
 <link rel="stylesheet" href="css/basic.css">
 <link rel="stylesheet" href="css/demo-all.css">
@@ -22,63 +25,65 @@
 <link rel="stylesheet" href="external/gentleSelect/jquery-gentleSelect.css" />
 <link rel="stylesheet" href="external/cron/jquery-cron.css" />
 
-
-<script type="text/javascript" src="js/dragdropHelper.js"></script>
-<script type="text/javascript" src="js/jsPlumbHelper.js"></script>
-<script type="text/javascript" src="js/dialogHelper.js"></script>
-<script type="text/javascript" src="js/pageSaverAndLoader.js"></script>
-<script type="text/javascript" src="js/controller.js"></script>
+<script type="text/javascript" src="js/oneFlow/dragDropHelper.js"></script>
+<script type="text/javascript" src="js/oneFlow/jsPlumbHelper.js"></script>
+<script type="text/javascript" src="js/oneFlow/dialogHelper.js"></script>
+<script type="text/javascript" src="js/oneFlow/pageSaverAndLoader.js"></script>
+<script type="text/javascript" src="js/oneFlow/controller.js"></script>
+<script type="text/javascript" src="js/oneFlow/campaign_designer.js"></script>
 
 </head>
 <body>
 
-<div id="showJson"></div>
-
 <div class = "buttom_column">
 	<div class="buttom_row">
 		<b>Trigger</b>
-		<div id="trigger" class="clonable draggable_clonable" type="trigger" formType="triggerDialog" uri="trigger"><p>trigger</p></div>
+		<div id="trigger" class="clonable draggable_clonable"><p>trigger</p></div>
 	</div>
 	<div class="buttom_row">
 		<b>Data</b>
-		<div id="data" class="clonable draggable_clonable" type="data" formType="dataDialog" uri="contact"><p>data</p></div>
+		<div id="dataSource" class="clonable draggable_clonable"><p>data</p></div>
 	</div>
 	<div class="buttom_row">
 		<b>Filter</b>
-		<div id="filter" class="clonable draggable_clonable" type="filter" formType="filterDialog" uri="filter"><p>filter</p></div>
+		<div id="filter" class="clonable draggable_clonable"><p>filter</p></div>
 	</div>
 	<div class="buttom_row">
 		<b>Action</b>
-		<div id="email" class="clonable draggable_clonable" type="action" formType="emailDialog" uri="action/email"><p>email</p></div>
-		<div id="sms" class="clonable draggable_clonable" type="action" formType="smsDialog" uri="action/sms"><p>sms</p></div>
+		<div id="email" class="clonable draggable_clonable"><p>email</p></div>
+		<div id="sms" class="clonable draggable_clonable"><p>sms</p></div>
+		<!-- <div id="wait" class="clonable draggable_clonable"><p>wait</p></div> -->
 	</div>
 	<div class="buttom_row" >
 		<b>Event</b>
-		<div id="emailopen" class="clonable draggable_clonable" type="event" formType="emailOpenDialog"><p>e-open</p></div>
-		<div id="emailclick" class="clonable draggable_clonable" type="event" formType="emailClickDialog"><p>e-click</p></div>
-		<div id="smsreceive" class="clonable draggable_clonable" type="event" formType="smsReceiveDialog"><p>s-receive</p></div>
+		<div id="emailopen" class="clonable draggable_clonable"><p>e-open</p></div>
+		<div id="emailclick" class="clonable draggable_clonable"><p>e-click</p></div>
+		<div id="smsreceive" class="clonable draggable_clonable"><p>s-receive</p></div>
 	</div>
 	<div class="buttom_row">
-		<b>Done? </b>
+		<b>Done?</b>
 		<button type="button" id="saveFlow">Save</button>
 	</div>
 </div>
 
-<div id="main" class="droppable">
-<!-- <div id="list"></div>	-->
-</div>
+<div id="main" class="droppable"></div>
 
-<div id="dialogContainer" style="display: none;" uri="../">
+<div id="dialogContainer" style="display: none;">
+
+	<div id="flowDialog" title="Flow">
+		<form>
+			<LABEL for="name">flow name: </LABEL> 
+			<INPUT type="text" name="flowname">
+		</form>
+	</div>
 
 	<div id="triggerDialog" title="Trigger">
 		<form>
-		
 		<div>
 			<label>Trigger Select:</label>
-			<input type="radio" name="schedulerType" value="CRON" checked="checked" class="valid">cron scheduler
+			<input type="radio" name="schedulerType" value="CRON" class="valid">cron scheduler
            	<input type="radio" name="schedulerType" value="SIMPLE" class="valid">simple scheduler
             <div id="cronscheduler" class="giveSomeSpace">
-				<LABEL for=""></LABEL>
 				<input type="hidden" name="cronScheduler"  class="valid">
 			</div>
             <div id="simplescheduler" class="giveSomeSpace">
@@ -89,7 +94,6 @@
 		</form>
     </div>
 
-
 	<div id="dataDialog" title="Data Source">
 		<form>			
 			<table>
@@ -98,7 +102,7 @@
 					<th>Email</th>
 					<th>Mobile</th>
 				</tr>
-				<tr class="forDataDisplay" >
+				<tr class="forDataDisplay" style="display: none;">
 					<td>this</td>
 					<td>should not</td>
 					<td>display</td>
@@ -117,7 +121,6 @@
 		</form>
 	</div>
 
-
 	<div id="filterDialog" title="Filter">
 		<form>
 			<LABEL for="attribute">Customer Field: </LABEL> 
@@ -125,22 +128,31 @@
 				<option value="name">Name</option>
 				<option value="email">Email</option>
 				<option value="mobile">Mobile</option>
-			</select> <br> <LABEL for="regex">Matches: </LABEL> 
-				<INPUT type="text" name="regex">
+			</select><br> 
+			<LABEL for="regex">Matches: </LABEL> 
+			<INPUT type="text" name="regex">
 		</form>
 	</div>
 
 	<div id="emailDialog" title="Email">
 		<form>
 			<LABEL for="content">Content: </LABEL>
-				<INPUT type="text" name="content">
+			<INPUT type="text" name="content">
 		</form>
 	</div>
 	
 	<div id="smsDialog" title="SMS">
 		<form>
 			<LABEL for="content">Content: </LABEL>
-				<INPUT type="text" name="content">
+			<INPUT type="text" name="content">
+		</form>
+	</div>
+	
+	<div id="waitDialog" title="WAIT">
+		<form>
+			<LABEL for="content">Wait for: </LABEL>
+			<br><INPUT type="text" name="hour"> Hours 
+			<br><INPUT type="text" name="day"> Days
 		</form>
 	</div>
 
@@ -176,9 +188,7 @@
 			</select>
 		</form>
 	</div>
-	
 </div>
-
 </body>
 </html>
 

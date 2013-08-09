@@ -1,9 +1,11 @@
 package com.xgate.mock.model;
 
+import net.sf.json.JSONObject;
+
 public class CampaignFlow {
 
 	int id;
-	String JSON;
+	JSONObject graph;
 	String name;
 	
 	public int getId() {
@@ -12,11 +14,11 @@ public class CampaignFlow {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getJSON() {
-		return JSON;
+	public JSONObject getGraph() {
+		return graph;
 	}
-	public void setJSON(String JSON) {
-		this.JSON = JSON;
+	public void setGraph(JSONObject graph) {
+		this.graph = graph;
 	}
 	public String getName() {
 		return name;

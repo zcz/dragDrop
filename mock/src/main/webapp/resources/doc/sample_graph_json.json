@@ -1,0 +1,40 @@
+{
+  "id": 12,
+  "name": "sample graph",
+  "graph": {
+    "nodes": [
+      {
+        "id": "08dac58a-b5ca-46f6-a25f-4a5f3d1215aa",
+        "type": "trigger",
+        "position": {
+          "top": 24,
+          "left": 135
+        },
+        "data": {
+          "extId": -1,
+          "schedulerType": "CRON",
+          "cronScheduler": "0 30 8 ? * 2",
+          "simpleScheduler": "20130808170900"
+        }
+      },
+      {
+        "id": "9d96c606-20c5-4c9e-9581-1745890e6e60",
+        "type": "dataSource",
+        "position": {
+          "top": 70,
+          "left": 295
+        },
+        "data": {
+          "extId": 9
+        }
+      },
+    ],
+    "edges": [
+      {
+        "src": "08dac58a-b5ca-46f6-a25f-4a5f3d1215aa",
+        "dst": "9d96c606-20c5-4c9e-9581-1745890e6e60",
+        "satisfied": true
+      },
+    ]
+  }
+}

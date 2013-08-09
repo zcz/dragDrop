@@ -1,0 +1,161 @@
+<h3>User Interface of Campaign Designer</h3>
+
+<h4>How to deploy</h4>
+
+<ul>
+<li>Source code is available at "mode" folder of <code>git@git.xgate.com:dms-yii/campaign-designer.git</code>.</li>
+<li>This project can be deployed in a web server like TomCat or GlassFish. </li>
+<li>Home page can be find at <code>http://localhost:8888/mock/resources/flowList.html</code>.</li>
+<li>Corresponding HTML file location : <code>campaign-designer/mock/src/main/webapp/resources/</code>.</li>
+</ul>
+
+<h4>Implementation</h4>
+
+<ol>
+<li>JavaScript + JQuery</li>
+<li>Java (mock on server side)</li>
+</ol>
+
+<h4>Work Flow</h4>
+
+<ol>
+<li>user drag a button from the left panel and drop it on the main panel </li>
+<li>a new div element is created at the position, code in <code>dragDropHelper.prepareUiNode</code></li>
+<li>the JSPlumb property (for graph connectors) are added, code in <code>jsPlumbHelper.addJSPlumbProperty</code></li>
+<li>a input form is initiated and displayed, code in <code>dialogHelper.handleEditWithDialog</code></li>
+<li>form related functions are called when event happened, code in <code>campaign_designer</code>
+<ul>
+<li>createForm</li>
+<li>loadForm</li>
+<li>submitForm</li>
+</ul></li>
+<li>if the save button (last button in the left panel) is clicked, the graph is posted to web server, code in <code>pageSaverAndLoader.ajaxSaveThisFlow</code> </li>
+</ol>
+
+<h4>How to add one campaign node type</h4>
+
+<p>For example, we want to add the node type "WAIT_FOR" (action). A WAIT_FOR blocks the flow for a certain time.</p>
+
+<p>Steps:</p>
+
+<ol>
+<li><p>add element in the static web page, <code>oneFlow.html</code></p>
+
+<ul>
+<li><p>for the panel button, add into <code>&lt;div class = "buttom_column"&gt;</code></p>
+
+<pre><code>&lt;div id="wait" class="clonable draggable_clonable"&gt;&lt;p&gt;wait&lt;/p&gt;&lt;/div&gt;
+</code></pre></li>
+<li><p>for the form, add into <code>&lt;div id="dialogContainer" style="display: none;"&gt;</code></p>
+
+<pre><code>&lt;div id="waitDialog" title="WAIT"&gt;
+    &lt;form&gt;
+        &lt;LABEL for="content"&gt;Wait for: &lt;/LABEL&gt;
+        &lt;br&gt;&lt;INPUT type="text" name="hour"&gt; Hours 
+        &lt;br&gt;&lt;INPUT type="text" name="day"&gt; Days
+    &lt;/form&gt;
+&lt;/div&gt;
+</code></pre></li>
+</ul></li>
+<li><p>add typeInfo into the <code>campaign_designer.nodeInfo</code>, code in <code>campaign_designer.js</code>,</p>
+
+<pre><code>wait : {
+    typeName : "wait",
+    loadMethod : "form",
+    formType : "waitDialog",
+    nodeType : "ACTION",
+    action : "SMS",
+    uri : "action/wait",
+    onCreateForm : function (node) {
+        if (node.data.hour === undefined) node.data.hour = 1;
+        if (node.data.day === undefined) node.data.day = 0;
+        node.findInForm("input").numeric();
+    },
+    onSubmitForm : function( node ) {
+        var json = node.findInForm('form').serializeArray();
+        var opt = campaign_designer.util.compressFormJson(json);
+        $.extend( node.data, opt ); // add the optional data into node's data
+    },
+    onLoadForm : function( node ) {
+        node.findInForm('INPUT[name=hour]').val(node.data.hour);
+        node.findInForm('INPUT[name=day]').val(node.data.day);
+    },
+},
+</code></pre></li>
+<li><p>it's done.</p></li>
+</ol>
+
+<h4>About the graph JSON</h4>
+
+<p>The following is an example of JSON used to represent a graph:</p>
+
+<pre><code>    {
+      "id": 12,
+      "name": "sample graph",
+      "graph": {
+        "nodes": [
+          {
+            "id": "08dac58a-b5ca-46f6-a25f-4a5f3d1215aa",
+            "type": "trigger",
+            "position": {
+              "top": 24,
+              "left": 135
+            },
+            "data": {
+              "extId": -1,
+              "schedulerType": "CRON",
+              "cronScheduler": "0 30 8 ? * 2",
+              "simpleScheduler": "20130808170900"
+            }
+          },
+          {
+            "id": "9d96c606-20c5-4c9e-9581-1745890e6e60",
+            "type": "dataSource",
+            "position": {
+              "top": 70,
+              "left": 295
+            },
+            "data": {
+              "extId": 9
+            }
+          },
+        ],
+        "edges": [
+          {
+            "src": "08dac58a-b5ca-46f6-a25f-4a5f3d1215aa",
+            "dst": "9d96c606-20c5-4c9e-9581-1745890e6e60",
+            "satisfied": true
+          },
+        ]
+      }
+    }
+</code></pre>
+
+<p>The codes related to the JSON generation are as follows:</p>
+
+<ul>
+<li><code>pageSaverAndLoader.js</code> 
+<ul>
+<li><code>prepareJSON()</code></li>
+<li><code>restoreTheGraph()</code></li>
+</ul></li>
+<li><code>campaign_designer.js</code> 
+<ul>
+<li><code>Node.prepareJson()</code></li>
+</ul></li>
+<li><code>jsPlumbHelper.js</code> 
+<ul>
+<li><code>getAllConnections()</code></li>
+<li><code>jsPlumpConnect()</code></li>
+</ul></li>
+</ul>
+
+<h4>Connection validation</h4>
+
+<p>The connection validation rules are defined in object: <code>campaign_designer.nodeInfo.connectionFollowRules</code>. <br>
+The related function to validate connection are: </p>
+
+<ul>
+<li><code>initJsPlumbConnector()</code> in <code>jsPlumbHelper.js</code></li>
+<li><code>validateConnection()</code> in <code>campaign_designer.js</code></li>
+</ul>

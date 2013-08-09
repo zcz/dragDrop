@@ -2,6 +2,9 @@ package com.xgate.mock;
 
 import java.util.ArrayList;
 
+import net.sf.json.JSONObject;
+import net.sf.json.JSONSerializer;
+
 import org.springframework.stereotype.Controller;
 
 import com.xgate.mock.model.CampaignFlow;
@@ -20,10 +23,17 @@ public class CampaignFlowController {
 		return i;
 	}
 	
-	CampaignFlow editFlow(int id, String name, String JSON) {
+	CampaignFlow editFlow(String jsonTxt) {
+
+		JSONObject json = (JSONObject) JSONSerializer.toJSON(jsonTxt);
+		int id = json.getInt("id");
+		if (id < 0) {
+			id = this.newFlow();
+		}
+		
 		CampaignFlow f = this.list.get(id);
-		f.setName(name);
-		f.setJSON(JSON);
+		f.setName(json.getString("name"));
+		f.setGraph(json.getJSONObject("graph"));
 		return f;
 	}
 	
@@ -32,4 +42,9 @@ public class CampaignFlowController {
 		return this.list.get(id);
 	}
 
+	public CampaignFlow removeFlow(int id) {
+		CampaignFlow flow = loadFlow(id);
+		this.list.set(id, null);
+		return flow;
+	}
 }

@@ -1,6 +1,7 @@
 package com.xgate.mock;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -43,7 +44,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		logger.info("haha haha, good, Welcome home! The client locale is {}.", locale);
+		logger.info("haha, good, Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
@@ -60,7 +61,10 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/contact", method = RequestMethod.POST)
 	public @ResponseBody ContactList addContact(@RequestParam("name") String name, @RequestParam("email") String email, @RequestParam("mobile") String mobile, @RequestParam("extid") int extid) {
-		if ((name+email+mobile).length()==0) return null;
+		if ((name+email+mobile).length()==0) {
+			logger.info("empty request contact[extid=" + extid + "]");
+			return this.loadContact(extid);
+		}
 		if (extid < 0) {
 			extid = this.DSController.newList();
 			logger.info("create new contact list: "  + extid );
@@ -116,7 +120,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/action/{type}", method = RequestMethod.GET)
-	public @ResponseBody Action loadAction(@RequestParam("extid") int id) {
+	public @ResponseBody Action loadAction(@PathVariable("type") String type, @RequestParam("extid") int id) {
 		logger.info("load Action: " + id);
 		return this.ActionController.loadAction(id);
 	}
@@ -128,19 +132,25 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/flow", method = RequestMethod.POST)
-	public @ResponseBody CampaignFlow addFlow(@RequestParam("name") String name, @RequestParam("JSON") String JSON, @RequestParam("id") int extid) {
-		if ((name+JSON).length()==0) return null;
-		if (extid < 0) {
-			extid = this.CFController.newFlow();
-			logger.info("create new flow: "  + extid );
-		}
-		logger.info("new flow["+name+"] created, extid:" + extid + " JSON " + JSON);
-		return this.CFController.editFlow(extid, name, JSON);
+	public @ResponseBody CampaignFlow addFlow( @RequestParam("JSON") String JSON) {
+		if ((JSON).length()==0) return null;
+		logger.info("new flow, JSON " + JSON);
+		return this.CFController.editFlow(JSON);
 	}
-	
 	@RequestMapping(value = "/flow", method = RequestMethod.GET)
-	public @ResponseBody CampaignFlow loadFlow(@RequestParam("id") int id) {
-		logger.info("load Action: " + id);
+	public @ResponseBody CampaignFlow loadFlow(@RequestParam("flowid") int id) {
+		logger.info("load flow: " + id);
 		return this.CFController.loadFlow(id);
+	}	
+	@RequestMapping(value = "/flow/delete", method = RequestMethod.GET)
+	public @ResponseBody CampaignFlow removeFlow(@RequestParam("flowid") int id) {
+		logger.info("remove flow: " + id);
+		return this.CFController.removeFlow(id);
+	}	
+	
+	@RequestMapping(value = "/flow/all", method = RequestMethod.GET)
+	public @ResponseBody ArrayList<CampaignFlow> loadAllFlows() {
+		logger.info("load all flows, total:" + this.CFController.list.size());
+		return this.CFController.list;
 	}	
 }
